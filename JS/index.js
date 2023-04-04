@@ -8,28 +8,36 @@ const dividir = document.querySelector('.divide')
 const multiplicar = document.querySelector('.multiply')
 const clear = document.querySelector('.clear')
 
-const calculadora = document.querySelector('#calculator-button')
+const calculadora = document.querySelector('#calculator')
 
 const resultado = []
 
-function suma(a, b) {
+
+
+// function handleClick (event) {
+//     console.log(event.target.value);
+// }
+
+// for(let i = 0; i < calculadora.length; i++) {
+//     calculadora[i].addEventListener('click', handleClick)
+// }
+
+function suma() {
     return resultado[0] + resultado[1];
 }
 
-function resta(a, b) {
+function resta() {
     return resultado[0] - resultado[1];
 }
 
-function multiplicacion(a, b) {
+function multiplicacion() {
     return resultado[0] * resultado[1];
 }
 
-function division(a, b) {
+function division() {
     return resultado[0] / resultado[1];
 }
 
-
-console.log(calculadora)
 
 for (let i = 0; i < numero.length; i++) {
     numero[i].addEventListener('click', function handleClick(event) {
@@ -44,25 +52,28 @@ for (let i = 0; i < operator.length; i++) {
     operator[i].addEventListener('click', function handleClick(event) {
         console.log(event.target.value)
         if (event.target.value === mas.value) {
-            return suma()
+            igual.addEventListener('click', function handleResult (event) {
+                pantalla.value = suma()
+            })
         } else if (event.target.value === menos.value) {
-            return resta()
+            igual.addEventListener('click', function handleResult (event) {
+                pantalla.value = resta()
+            })
         } else if (event.target.value === dividir.value) {
-            return division()
+            igual.addEventListener('click', function handleResult (event) {
+                pantalla.value = division()
+            })
         } else if (event.target.value === multiplicar.value) {
-            return multiplicacion()
+            igual.addEventListener('click', function handleResult (event) {
+                pantalla.value = multiplicacion()
+            })
         }
     })
 }
 
-igual.addEventListener('click', function handleClick(event) {
-    return pantalla.value = suma()
-})
 
 clear.addEventListener('click', function handleClick(event) {
     pantalla.value = 0
     resultado.pop()
     resultado.shift()
 })
-
-
