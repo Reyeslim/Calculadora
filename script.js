@@ -1,4 +1,8 @@
 
+/*La calculadora calcula bien con números de 1 dígito. Para operaciones de 2 dígitos solo lo he conseguido con el primer operando de dos cifras 
+y el segundo solo con una cifra, siento si no está perfecto*/
+
+
 //Elementos
 
 const numero = document.querySelectorAll('.btn.number')
@@ -14,41 +18,72 @@ const bodyDOMEl = document.querySelector('body')
 
 //Almacenamiento de numeros
 
-let resultado = [] 
+let resultado = []
+let numGuardado = "0"
+let numInicio = 1
 
 //Funciones para las operaciones
 
 
 function suma() {
-    return resultado[0] + resultado[1];
+    if (resultado.length >= 3) {
+        return resultado[1] + resultado[2];
+    } else {
+        return resultado[0] + resultado[1];
+    }
 }
 
 function resta() {
-    return resultado[0] - resultado[1];
+    if (resultado.length >= 3) {
+        return resultado[1] - resultado[2];
+    } else {
+        return resultado[0] - resultado[1];
+    }
 }
 
 function multiplicacion() {
-    return resultado[0] * resultado[1];
+    if (resultado.length >= 3) {
+        return resultado[1] * resultado[2];
+    } else {
+        return resultado[0] * resultado[1];
+    }
 }
 
 function division() {
-    return resultado[0] / resultado[1];
+    if (resultado.length >= 3) {
+        return resultado[1] / resultado[2];
+    } else {
+        return resultado[0] / resultado[1];
+    }
 }
 
 
 //Funciones para los eventos
 
+function handleDisplay (e) {
+    if (numGuardado === "0" || numInicio === 1) {
+        pantalla.value = e.target.innerText;
+        numGuardado = e.target.innerText
+        resultado.push(parseInt(numGuardado))
+    } else {
+        pantalla.value += e.target.innerText;
+        numGuardado += e.target.innerText;
+        resultado.push(parseInt(numGuardado))
+    }
+   numInicio = 0 
+}
 
 function handlePrevent(e) {
     e.preventDefault()
 }
 
-function handleClick(e) {
-    pantalla.value = e.target.innerText
-    resultado.push(parseInt(e.target.innerText))  
-}
+// function handleClick(e) {
+//     pantalla.value = e.target.innerText
+//     resultado.push(parseInt(e.target.innerText))  
+// }
 
 function handleOperator(e) {
+    numInicio = 1
     if (e.target === mas) {
         igual.addEventListener('click', function handleResult(e) {
             pantalla.value = suma()
@@ -66,7 +101,7 @@ function handleOperator(e) {
             pantalla.value = multiplicacion()
         })
     } else {
-        pantalla.value = 0
+        pantalla.value = ''
     }
 }
 
@@ -74,15 +109,15 @@ function handleOperator(e) {
 //Eventos
 
 clear.addEventListener('click', function handleClear(e) {
-    pantalla.value = 0
-    resultado.pop()
-    resultado.shift()
+    pantalla.value = ''
+    resultado = []
 })
 
 bodyDOMEl.addEventListener('click', handlePrevent)
 
 for (let i = 0; i < numero.length; i++) {
-    numero[i].addEventListener('click', handleClick)
+    // numero[i].addEventListener('click', handleClick)
+    numero[i].addEventListener('click', handleDisplay)
 }
 
 for (let i = 0; i < operador.length; i++) {
