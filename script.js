@@ -7,7 +7,7 @@ y el segundo solo con una cifra, siento si no está perfecto*/
 
 const numero = document.querySelectorAll('.btn.number')
 const pantalla = document.querySelector('#calc-disp')
-const operador = document.querySelectorAll('.btn.operator')
+const operadores = document.querySelectorAll('.btn.operator')
 const igual = document.querySelector('.equal')
 const mas = document.querySelector('.add')
 const menos = document.querySelector('.subtract')
@@ -17,51 +17,41 @@ const clear = document.querySelector('.clear')
 const bodyDOMEl = document.querySelector('body')
 
 //Almacenamiento de numeros
-
-let resultado = []
-let numGuardado = "0"
-let numInicio = 1
+let resultA = 0
+let resultB = 0
+let isFirstNum = true
 
 //Funciones para las operaciones
 
 
 function suma() {
-    if (resultado.length >= 3) {
-        return resultado[1] + resultado[2];
-    } else {
-        return resultado[0] + resultado[1];
-    }
+    return Number(resultA) + Number(resultB)
 }
 
 function resta() {
-    if (resultado.length >= 3) {
-        return resultado[1] - resultado[2];
-    } else {
-        return resultado[0] - resultado[1];
-    }
+    return Number(resultA) - Number(resultB)
 }
 
 function multiplicacion() {
-    if (resultado.length >= 3) {
-        return resultado[1] * resultado[2];
-    } else {
-        return resultado[0] * resultado[1];
-    }
+    return Number(resultA) * Number(resultB)
 }
 
 function division() {
-    if (resultado.length >= 3) {
-        return resultado[1] / resultado[2];
-    } else {
-        return resultado[0] / resultado[1];
-    }
+    return Number(resultA) / Number(resultB)
 }
-
 
 //Funciones para los eventos
 
 function handleDisplay (e) {
-    if (numGuardado === "0" || numInicio === 1) {
+    if (isFirstNum) {
+        resultA += e.target.innerText;
+        pantalla.value = Number(resultA)
+    } else {
+        resultB += e.target.innerText;
+        pantalla.value = Number(resultB)
+    }
+
+   /* if (numGuardado === "0" || numInicio === 1) {
         pantalla.value = e.target.innerText;
         numGuardado = e.target.innerText
         resultado.push(parseInt(numGuardado))
@@ -70,7 +60,7 @@ function handleDisplay (e) {
         numGuardado += e.target.innerText;
         resultado.push(parseInt(numGuardado))
     }
-   numInicio = 0 
+   numInicio = 0*/
 }
 
 function handlePrevent(e) {
@@ -83,20 +73,23 @@ function handlePrevent(e) {
 // }
 
 function handleOperator(e) {
-    numInicio = 1
     if (e.target === mas) {
+        isFirstNum = false
         igual.addEventListener('click', function handleResult(e) {
             pantalla.value = suma()
         })
     } else if (e.target === menos) {
+        isFirstNum = false
         igual.addEventListener('click', function handleResult(e) {
             pantalla.value = resta()
         })
     } else if (e.target === dividir) {
+        isFirstNum = false
         igual.addEventListener('click', function handleResult(e) {
             pantalla.value = division()
         })
     } else if (e.target === multiplicar) {
+        isFirstNum = false
         igual.addEventListener('click', function handleResult(e) {
             pantalla.value = multiplicacion()
         })
@@ -110,7 +103,9 @@ function handleOperator(e) {
 
 clear.addEventListener('click', function handleClear(e) {
     pantalla.value = ''
-    resultado = []
+    resultA = 0
+    resultB = 0
+    isFirstNum = true
 })
 
 bodyDOMEl.addEventListener('click', handlePrevent)
@@ -120,6 +115,6 @@ for (let i = 0; i < numero.length; i++) {
     numero[i].addEventListener('click', handleDisplay)
 }
 
-for (let i = 0; i < operador.length; i++) {
-    operador[i].addEventListener('click', handleOperator)
+for (let i = 0; i < operadores.length; i++) {
+    operadores[i].addEventListener('click', handleOperator)
 }
